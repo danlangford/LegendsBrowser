@@ -6,10 +6,8 @@ import java.nio.file.Path;
 import java.nio.file.attribute.FileTime;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -221,6 +219,10 @@ public class EventHelper {
 
 	public static List<String> getTypes(Collection<Event> events) {
 		return events.stream().map(Event::getType).distinct().sorted().collect(Collectors.toList());
+	}
+
+	public static Map<String, Long> getTypesWithCounts(Collection<Event> events) {
+		return events.stream().map(Event::getType).sorted().collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
 	}
 	
 	public static String escapePath(Path path) {
